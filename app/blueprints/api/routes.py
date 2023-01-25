@@ -16,4 +16,4 @@ def get_posts():
 @api.route('/post/<int:post_id>')
 def get_post(post_id):
     post = Post.query.get_or_404(post_id)
-    return post.to_dict()
+    return post.to_dict()        
