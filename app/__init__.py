@@ -13,7 +13,7 @@ app = Flask(__name__)
 # Configure the app using the Config class
 app.config.from_object(Config)
 
-#allow CORS for all origin
+# Allow CORS for all origins
 CORS(app)
 
 # Create an instance of SQLAlchemy to represent our database
@@ -27,6 +27,9 @@ login.login_view = 'login'
 login.login_message = 'You must be logged in to perform this action'
 login.login_message_category = 'danger'
 
+# Import the api blueprint and register it with the Flask Application
+from app.blueprints.api import api
+app.register_blueprint(api)
 
 from app.blueprints.api import api
 app.register_blueprint(api)
