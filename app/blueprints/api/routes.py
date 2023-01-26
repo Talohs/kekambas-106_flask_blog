@@ -1,6 +1,6 @@
 from flask import request
 from . import api
-from app.models import Post
+from app.models import Post, User
 
 @api.route('/')
 def index():
@@ -36,3 +36,25 @@ def create_posts():
 
     new_post = Post(title=title, body=body, user_id=user_id)
     return new_post.to_dict(), 201
+
+
+@api.route('/user/<id>', methods=['GET'])
+def new_user(id):
+    user = User.query.get_or_404(id)
+    return user.to_dict()
+
+@api.route('/users', methods=['POST'])
+def create_user():
+    if not request.is_json:
+        return {'error': 'Your request content type must be application/json'}, 400
+    data = request.json
+    for field in ['email', 'username', 'password']:
+        if field not in data:
+            return {'error': f"{field} must be in request body"}, 400
+
+    email = data.get('email')
+    username = data.get('username')
+    password = data.get('password')
+
+    new_user = User(email=email, username=username, password=password)
+    return new_user.to_dict(), 201
